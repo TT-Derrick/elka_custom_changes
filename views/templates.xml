@@ -10,6 +10,13 @@
                 </div>
             </xpath>
 
+            <!-- Add the internal notes (description) field below the product name -->
+            <xpath expr="//div[hasclass('o_label_name')]" position="after">
+                <div t-if="product.description" style="font-size: 0.7em; line-height: 110%; color: #495057; overflow: hidden; height: 2.2em; padding: 2px 4px; margin-top: 1px; clear: both; word-break: break-word;">
+                    <span t-field="product.description"/>
+                </div>
+            </xpath>
+
             <!-- Make the bottom-left reference field more readable and prefix it with 'Ref: ' -->
             <xpath expr="//div[hasclass('o_label_left_column')]" position="replace">
                 <div class="o_label_left_column" style="width: 55%; float: left; font-size: 0.8em; overflow: visible; white-space: nowrap;">
