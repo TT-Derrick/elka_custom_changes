@@ -1,29 +1,54 @@
 <odoo>
     <data>
         <template id="report_simple_label_dymo_inherit" inherit_id="product.report_simple_label_dymo">
-            <!-- Prepend the default code to the product name (direct child of o_label_full) -->
+            <!-- Reduce barcode size slightly to free up vertical space -->
+            <xpath expr="//div[hasclass('o_label_sheet')]" position="before">
+                <t t-set="barcode_size" t-value="'width:45.5mm;height:6mm'"/>
+            </xpath>
+
+            <!-- Reduce padding of the outer label sheet page -->
+            <xpath expr="//div[hasclass('o_label_sheet')]" position="attributes">
+                <attribute name="style">padding: 1mm 2mm !important;</attribute>
+            </xpath>
+
+            <!-- Reduce padding of the barcode container -->
+            <xpath expr="//div[hasclass('o_label_full')]/div[hasclass('o_label_small_barcode')]" position="attributes">
+                <attribute name="style">padding: 0px 4px !important; margin: 0 !important;</attribute>
+            </xpath>
+
+            <!-- Reduce padding and font height of the barcode text -->
+            <xpath expr="//div[hasclass('o_label_full')]/div[hasclass('o_label_small_barcode')]/t/div[hasclass('o_label_name')]" position="attributes">
+                <attribute name="style">height: 1.1em; background-color: transparent; padding: 0px 4px !important; margin: 0 !important; font-size: 0.85em;</attribute>
+            </xpath>
+
+            <!-- Prepend default code to product name and compact its padding -->
             <xpath expr="//div[hasclass('o_label_full')]/div[hasclass('o_label_name')]" position="replace">
-                <div class="o_label_name" style="line-height: 100%; background-color: transparent; padding-top: 1px;">
+                <div class="o_label_name" style="line-height: 100%; background-color: transparent; padding: 0px 4px !important; margin-top: 1px; font-weight: 500;">
                     <span t-if="product.default_code" style="font-weight: bold;">[<span t-field="product.default_code"/>] </span>
                     <span t-if="product.is_product_variant" t-field="product.display_name"/>
                     <span t-else="" t-field="product.name"/>
                 </div>
             </xpath>
 
-            <!-- Add the internal notes (description) field below the product name -->
+            <!-- Add compact internal notes (description) field -->
             <xpath expr="//div[hasclass('o_label_full')]/div[hasclass('o_label_name')]" position="after">
-                <div t-if="product.description" style="font-size: 0.7em; line-height: 110%; color: #495057; overflow: hidden; height: 2.2em; padding: 2px 4px; margin-top: 1px; clear: both; word-break: break-word;">
+                <div t-if="product.description" style="font-size: 0.65em; line-height: 100%; color: #495057; overflow: hidden; height: 1.5em; padding: 0px 4px !important; margin-top: 0px; margin-bottom: 1px; clear: both; word-break: break-word;">
                     <span t-field="product.description"/>
                 </div>
             </xpath>
 
-            <!-- Make the bottom-left reference field more readable and prefix it with 'Ref: ' -->
+            <!-- Make the bottom-left reference field more readable and compact -->
             <xpath expr="//div[hasclass('o_label_full')]/div[hasclass('o_label_left_column')]" position="replace">
-                <div class="o_label_left_column" style="width: 55%; float: left; font-size: 0.8em; overflow: visible; white-space: nowrap;">
+                <div class="o_label_left_column" style="width: 55%; float: left; font-size: 0.85em; overflow: visible; white-space: nowrap; padding: 0px 4px !important; margin: 0 !important;">
                     <span t-if="product.default_code" style="font-weight: bold; color: #212529;">
                         Ref: <span t-field="product.default_code"/>
                     </span>
                 </div>
+            </xpath>
+
+            <!-- Remove price container vertical padding to prevent overflow -->
+            <xpath expr="//div[hasclass('o_label_full')]/div[hasclass('text-end')]" position="attributes">
+                <attribute name="style">padding: 0px 4px !important; margin: 0 !important;</attribute>
             </xpath>
         </template>
     </data>
