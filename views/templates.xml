@@ -1,8 +1,8 @@
 <odoo>
     <data>
         <template id="report_simple_label_dymo_inherit" inherit_id="product.report_simple_label_dymo">
-            <!-- Prepend the default code to the product name -->
-            <xpath expr="//div[hasclass('o_label_name')]" position="replace">
+            <!-- Prepend the default code to the product name (direct child of o_label_full) -->
+            <xpath expr="//div[hasclass('o_label_full')]/div[hasclass('o_label_name')]" position="replace">
                 <div class="o_label_name" style="line-height: 100%; background-color: transparent; padding-top: 1px;">
                     <span t-if="product.default_code" style="font-weight: bold;">[<span t-field="product.default_code"/>] </span>
                     <span t-if="product.is_product_variant" t-field="product.display_name"/>
@@ -11,14 +11,14 @@
             </xpath>
 
             <!-- Add the internal notes (description) field below the product name -->
-            <xpath expr="//div[hasclass('o_label_name')]" position="after">
+            <xpath expr="//div[hasclass('o_label_full')]/div[hasclass('o_label_name')]" position="after">
                 <div t-if="product.description" style="font-size: 0.7em; line-height: 110%; color: #495057; overflow: hidden; height: 2.2em; padding: 2px 4px; margin-top: 1px; clear: both; word-break: break-word;">
                     <span t-field="product.description"/>
                 </div>
             </xpath>
 
             <!-- Make the bottom-left reference field more readable and prefix it with 'Ref: ' -->
-            <xpath expr="//div[hasclass('o_label_left_column')]" position="replace">
+            <xpath expr="//div[hasclass('o_label_full')]/div[hasclass('o_label_left_column')]" position="replace">
                 <div class="o_label_left_column" style="width: 55%; float: left; font-size: 0.8em; overflow: visible; white-space: nowrap;">
                     <span t-if="product.default_code" style="font-weight: bold; color: #212529;">
                         Ref: <span t-field="product.default_code"/>
